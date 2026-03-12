@@ -89,6 +89,40 @@ void LedTester ::testBlinkInterval() {
     ASSERT_EVENTS_BlinkIntervalSet_SIZE(1);
 
     // TODO: Add logic to test adjusted blink interval
+
+    // Cycle 1: LED initalization->On
+    this->invoke_to_run(0, 0);
+    this->component.doDispatch();  // Trigger execution of async port
+    ASSERT_EVENTS_LedState_SIZE(1);
+    ASSERT_EVENTS_LedState(0, Fw::On::ON);
+    ASSERT_from_gpioSet_SIZE(1);
+    ASSERT_from_gpioSet(0, Fw::Logic::HIGH);
+    ASSERT_TLM_LedTransitions_SIZE(1);
+    ASSERT_TLM_LedTransitions(0, 1);
+
+    //check that the state of the LED did not change
+    this->invoke_to_run(0, 0);
+    this->component.doDispatch();  // Trigger execution of async port
+    ASSERT_EVENTS_LedState_SIZE(1);
+    ASSERT_EVENTS_LedState(0, Fw::On::ON);
+    ASSERT_from_gpioSet_SIZE(1);
+    ASSERT_from_gpioSet(0, Fw::Logic::HIGH);
+    ASSERT_TLM_LedTransitions_SIZE(1);
+    ASSERT_TLM_LedTransitions(0, 1);
+
+    // check that the state changed after 3 more cycles
+    this->invoke_to_run(0, 0);  
+    this->component.doDispatch();
+    this->invoke_to_run(0, 0);  
+    this->component.doDispatch();
+    this->invoke_to_run(0, 0);  
+    this->component.doDispatch();
+    ASSERT_EVENTS_LedState_SIZE(2);
+    ASSERT_EVENTS_LedState(1, Fw::On::OFF);
+    ASSERT_from_gpioSet_SIZE(2);
+    ASSERT_from_gpioSet(1, Fw::Logic::LOW);
+    ASSERT_TLM_LedTransitions_SIZE(2);
+    ASSERT_TLM_LedTransitions(1, 2);
 }
 
 }  // namespace LedBlinker

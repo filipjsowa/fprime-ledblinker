@@ -32,6 +32,7 @@ module LedBlinker {
     instance timer
     instance comDriver
     instance cmdSeq
+    instance led
 
   # ----------------------------------------------------------------------
   # Pattern graph specifiers

@@ -25,6 +25,10 @@ module LedBlinker {
   # ----------------------------------------------------------------------
   # Active component instances
   # ----------------------------------------------------------------------
+  instance led: LedBlinker.Led base id 0x10005000 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 95
 
   instance rateGroup1: Svc.ActiveRateGroup base id 0x10001000 \
     queue size Default.QUEUE_SIZE \

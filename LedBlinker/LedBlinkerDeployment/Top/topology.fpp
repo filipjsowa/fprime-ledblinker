@@ -33,6 +33,7 @@ module LedBlinker {
     instance comDriver
     instance cmdSeq
     instance led
+    instance gpioDriver
 
   # ----------------------------------------------------------------------
   # Pattern graph specifiers
@@ -130,6 +131,14 @@ module LedBlinker {
 
     connections LedBlinkerDeployment {
 
+    }
+
+        # Named connection group
+    connections LedBlinker {
+      # Rate Group 1 (1Hz cycle) ouput is connected to led's run input
+      rateGroup1.RateGroupMemberOut[5] -> led.run
+      # led's gpioSet output is connected to gpioDriver's gpioWrite input
+      led.gpioSet -> gpioDriver.gpioWrite
     }
 
   }
